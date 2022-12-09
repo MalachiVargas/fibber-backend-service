@@ -43,7 +43,7 @@ public class TweetServiceImplementation implements TweetService {
     @Override
     public List<Tweet> getTweets() {
 
-        List<TweetEntity> tweetEntities = tweetEntityRepository.findAll(Sort.by("_createdAt").descending());
+        List<TweetEntity> tweetEntities = tweetEntityRepository.findAll(Sort.by("createdAt").descending());
 
         List<Tweet> tweets = tweetEntities.stream().map((tweetEntity) -> Tweet.builder().id(tweetEntity.getId())
                 .createdAt(tweetEntity.getCreatedAt()).username(tweetEntity.getUsername())

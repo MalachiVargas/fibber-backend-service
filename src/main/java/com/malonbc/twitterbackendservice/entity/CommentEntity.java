@@ -11,6 +11,7 @@ import org.hibernate.annotations.GenericGenerator;
 import java.util.List;
 
 @Entity
+@Table(name = "comments")
 @Data
 @Builder
 @NoArgsConstructor

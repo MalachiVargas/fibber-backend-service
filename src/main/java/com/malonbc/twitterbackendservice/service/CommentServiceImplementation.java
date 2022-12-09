@@ -39,7 +39,7 @@ public class CommentServiceImplementation implements CommentService {
 
     @Override
     public List<Comment> getComments(String tweetId) {
-        List<CommentEntity> commentEntities = commentEntityRepository.findAllById(tweetId, Sort.by("_createdAt").descending());
+        List<CommentEntity> commentEntities = commentEntityRepository.findAllById(tweetId, Sort.by("createdAt").descending());
         List<Comment> comments = commentEntities.stream().map((commentEntity) -> Comment.builder().id(commentEntity.getId())
                 .createdAt(commentEntity.getCreatedAt()).username(commentEntity.getUsername())
                 .comment(commentEntity.getComment()).profileImg(commentEntity.getProfileImg()).build()).toList();
