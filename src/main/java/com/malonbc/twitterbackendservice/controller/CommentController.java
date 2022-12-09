@@ -22,7 +22,7 @@ public class CommentController {
         return comment;
     }
 
-    @GetMapping("api/comments?tweetId={_id}")
+    @GetMapping("api/comments?tweetId={id}")
     public List<Comment> getComments(@PathVariable("id") String tweetId) { return commentService.getComments(tweetId); }
 
 
