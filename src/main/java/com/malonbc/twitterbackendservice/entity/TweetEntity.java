@@ -36,6 +36,6 @@ public class TweetEntity {
     String text;
     @Lob
     String profileImg;
-    @Lob
+    @Column(columnDefinition = "LONGTEXT")
     String image;
 }
