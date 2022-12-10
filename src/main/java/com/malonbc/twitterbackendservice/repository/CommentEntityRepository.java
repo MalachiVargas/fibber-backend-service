@@ -12,5 +12,5 @@ import java.util.List;
 
 @Repository
 public interface CommentEntityRepository extends JpaRepository<CommentEntity, String> {
-    List<CommentEntity> findAllById(String id, Sort sort);
+    List<CommentEntity> findAllByTweetRef(String tweetRef, Sort sort);
 }

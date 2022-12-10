@@ -15,6 +15,5 @@ public class Comment {
     String comment;
     String username;
     String profileImg;
-    String tweetId;
     String tweetRef;
 }

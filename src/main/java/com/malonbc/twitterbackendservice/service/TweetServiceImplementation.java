@@ -7,6 +7,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,17 +26,9 @@ public class TweetServiceImplementation implements TweetService {
         try {
             TweetEntity tweetEntity = new TweetEntity();
             BeanUtils.copyProperties(tweet, tweetEntity);
-
-            if (tweet.getImage() != null && !tweet.getImage().equalsIgnoreCase("null")) {
-                tweetEntity.setImage(tweet.getImage());
-            } else {
-                tweetEntity.setImage(null);
-            }
-
             tweetEntity = tweetEntityRepository.save(tweetEntity);
             tweet.setId(tweetEntity.getId());
-            tweet.setImage(tweetEntity.getImage());
-            tweet.setCreatedAt(tweetEntity.getCreatedAt());
+            tweet.setCreatedAt(tweetEntity.getCreatedAt().toString());
         } catch (Exception e) {
             throw new Exception("could not save tweet: " + e);
         }
@@ -44,9 +39,10 @@ public class TweetServiceImplementation implements TweetService {
     public List<Tweet> getTweets() {
 
         List<TweetEntity> tweetEntities = tweetEntityRepository.findAll(Sort.by("createdAt").descending());
-
+        List<Instant> tweetTime = tweetEntities.stream().map(TweetEntity::getCreatedAt).collect(Collectors.toList());
+        System.out.println(tweetTime);
         List<Tweet> tweets = tweetEntities.stream().map((tweetEntity) -> Tweet.builder().id(tweetEntity.getId())
-                .createdAt(tweetEntity.getCreatedAt()).username(tweetEntity.getUsername())
+                .createdAt(tweetEntity.getCreatedAt().atZone(ZoneId.of("UTC")).toInstant().toString()).username(tweetEntity.getUsername())
                 .image(tweetEntity.getImage()).profileImg(tweetEntity.getProfileImg())
                 .text(tweetEntity.getText()).build()).collect(Collectors.toList());
         return tweets;

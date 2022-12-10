@@ -16,14 +16,14 @@ public class CommentController {
     @PostMapping("api/addComment")
     public Comment addComment(@RequestBody Comment commentBody) throws Exception {
         Comment comment = Comment.builder().id(commentBody.getId()).createdAt(commentBody.getCreatedAt())
-                .username(commentBody.getUsername()).tweetId(commentBody.getTweetId()).profileImg(commentBody.getProfileImg())
+                .username(commentBody.getUsername()).profileImg(commentBody.getProfileImg())
                 .tweetRef(commentBody.getTweetRef()).comment(commentBody.getComment()).build();
         comment = commentService.addComment(comment);
         return comment;
     }
 
-    @GetMapping("api/comments?tweetId={id}")
-    public List<Comment> getComments(@PathVariable("id") String tweetId) { return commentService.getComments(tweetId); }
+    @GetMapping("api/comments")
+    public List<Comment> getComments(@RequestParam("tweetId") String tweetId) { return commentService.getComments(tweetId); }
 
 
 }

@@ -27,10 +27,9 @@ public class CommentServiceImplementation implements CommentService {
         try {
             CommentEntity commentEntity = new CommentEntity();
             BeanUtils.copyProperties(comment, commentEntity);
-
             commentEntity = commentEntityRepository.save(commentEntity);
             comment.setId(commentEntity.getId());
-            comment.setCreatedAt(commentEntity.getCreatedAt());
+            comment.setCreatedAt(commentEntity.getCreatedAt().toString());
         } catch (Exception e) {
             throw new Exception("could not save comment" + e);
         }
@@ -38,11 +37,11 @@ public class CommentServiceImplementation implements CommentService {
     }
 
     @Override
-    public List<Comment> getComments(String tweetId) {
-        List<CommentEntity> commentEntities = commentEntityRepository.findAllById(tweetId, Sort.by("createdAt").descending());
+    public List<Comment> getComments(String tweetRef) {
+        List<CommentEntity> commentEntities = commentEntityRepository.findAllByTweetRef(tweetRef, Sort.by("createdAt").descending());
         List<Comment> comments = commentEntities.stream().map((commentEntity) -> Comment.builder().id(commentEntity.getId())
-                .createdAt(commentEntity.getCreatedAt()).username(commentEntity.getUsername())
-                .comment(commentEntity.getComment()).profileImg(commentEntity.getProfileImg()).build()).toList();
+                .createdAt(commentEntity.getCreatedAt().toString()).username(commentEntity.getUsername())
+                .comment(commentEntity.getComment()).profileImg(commentEntity.getProfileImg()).tweetRef(commentEntity.getTweetRef()).build()).toList();
         return comments;
 
     }

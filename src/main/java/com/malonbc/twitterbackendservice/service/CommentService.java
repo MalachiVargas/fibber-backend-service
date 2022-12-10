@@ -7,5 +7,5 @@ import java.util.List;
 public interface CommentService {
     Comment addComment(Comment comment) throws Exception;
 
-    List<Comment> getComments(String tweetId);
+    List<Comment> getComments(String tweetRef);
 }
