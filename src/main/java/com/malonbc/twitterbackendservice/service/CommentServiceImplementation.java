@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.time.ZoneId;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,7 +41,7 @@ public class CommentServiceImplementation implements CommentService {
     public List<Comment> getComments(String tweetRef) {
         List<CommentEntity> commentEntities = commentEntityRepository.findAllByTweetRef(tweetRef, Sort.by("createdAt").descending());
         List<Comment> comments = commentEntities.stream().map((commentEntity) -> Comment.builder().id(commentEntity.getId())
-                .createdAt(commentEntity.getCreatedAt().toString()).username(commentEntity.getUsername())
+                .createdAt(commentEntity.getCreatedAt().atZone(ZoneId.of("UTC")).toInstant().toString()).username(commentEntity.getUsername())
                 .comment(commentEntity.getComment()).profileImg(commentEntity.getProfileImg()).tweetRef(commentEntity.getTweetRef()).build()).toList();
         return comments;
 

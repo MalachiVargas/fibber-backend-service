@@ -7,8 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
-import java.time.LocalDateTime;
-import java.util.Date;
+
+import java.time.Instant;
 
 @Entity
 @Table(name = "comments")
@@ -24,7 +24,7 @@ public class CommentEntity {
     @Column(name = "created_at", columnDefinition = "TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
-    Date createdAt;
+    Instant createdAt;
     @Lob
     String comment;
     String username;
